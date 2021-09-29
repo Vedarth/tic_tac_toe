@@ -215,6 +215,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void _increaseGrid() {
     setState(() {
       _numberOfCells += 1;
+      _gridSize -= 9;
     });
     _setEmptyCells();
     Navigator.popAndPushNamed(context,'/');
@@ -250,6 +251,7 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               child: Text('Restart'),
             ),
+            if (_numberOfCells < 9)
             ElevatedButton(
               onPressed: () {
                 _increaseGrid();
