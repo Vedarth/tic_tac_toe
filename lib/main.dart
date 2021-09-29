@@ -32,7 +32,9 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _matrixSize = 3;
-  int _size = 0;
+  double _size = 0;
+  int _xScore = 0;
+  int _oScore = 0;
 
   String lastMove = Cell.none;
   late List<List<String>> grid;
@@ -49,31 +51,51 @@ class _MyHomePageState extends State<MyHomePage> {
         (_) => List.generate(_matrixSize, (_) => Cell.none),
       ));
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
+  Widget build(BuildContext context) => Scaffold(
+        backgroundColor: Colors.grey,
+        appBar: AppBar(
+          title: Text(widget.title),
+        ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: getChildren(),
+        ),
+      );
+
+  List<Widget> getChildren() {
+    List<Widget> children = <Widget>[
+      Container(
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_size',
-              style: Theme.of(context).textTheme.headline4,
-            ),
+            getScoreView("Player X", _xScore, Colors.red, _size),
+            getScoreView("Player O", _oScore, Colors.blue, _size)
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _setEmptyCells,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+    ];
+
+    return children;
+  }
+
+  Padding getScoreView(String player, int score, MaterialColor color, double size) {
+    return Padding(
+      padding: const EdgeInsets.all(30.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            player,
+            style: TextStyle(
+                fontSize: size, fontWeight: FontWeight.bold, color: color),
+          ),
+          Text(
+            score.toString(),
+            style: TextStyle(fontSize: 32, color: color),
+          ),
+        ],
+      ),
     );
   }
+
 }
