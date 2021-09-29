@@ -212,6 +212,22 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+  void _increaseGrid() {
+    setState(() {
+      _numberOfCells += 1;
+    });
+    _setEmptyCells();
+    Navigator.popAndPushNamed(context,'/');
+  }
+
+  void _decreaseGrid() {
+    setState(() {
+       _numberOfCells -= 1;
+    });
+    _setEmptyCells();
+    Navigator.popAndPushNamed(context,'/');
+  }
+
   void _showEndDialog(String title) => showDialog(
         context: context,
         barrierDismissible: false,
@@ -234,6 +250,21 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               child: Text('Restart'),
             ),
+            ElevatedButton(
+              onPressed: () {
+                _increaseGrid();
+                Navigator.of(context).pop();
+              },
+              child: Text('${_numberOfCells + 1} Cells'),
+            ),
+            if (_numberOfCells > 2)
+            ElevatedButton(
+              onPressed: () {
+                _decreaseGrid();
+                Navigator.of(context).pop();
+              },
+              child: Text('${_numberOfCells - 1} Cells'),
+            )
           ],
         ),
       );
