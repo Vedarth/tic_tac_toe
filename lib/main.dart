@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tic_tac_toe/cell.dart';
+import 'package:tic_tac_toe/helper.dart';
 
 void main() {
   runApp(MyApp());
@@ -31,8 +32,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _matrixSize = 3;
-  double _size = 0;
+  int _numberOfCells = 3;
+  double _size = 32;
+  double _gridSize = 114;
   int _xScore = 0;
   int _oScore = 0;
 
@@ -47,8 +49,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _setEmptyCells() => setState(() => grid = List.generate(
-        _matrixSize,
-        (_) => List.generate(_matrixSize, (_) => Cell.none),
+        _numberOfCells,
+        (_) => List.generate(_numberOfCells, (_) => Cell.none),
       ));
 
   Widget build(BuildContext context) => Scaffold(
@@ -74,8 +76,49 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     ];
+    children.addAll(Utils.modelBuilder(grid, (x, value) => buildRow(x)));
 
     return children;
+  }
+
+  Widget buildRow(int x) {
+    final values = grid[x];
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: Utils.modelBuilder(
+        values,
+        (y, value) => buildField(x, y),
+      ),
+    );
+  }
+
+  Widget buildField(int x, int y) {
+    final value = grid[x][y];
+    final color = getFieldColor(value);
+
+    return Container(
+      margin: EdgeInsets.all(4),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          minimumSize: Size(_gridSize, _gridSize),
+          primary: color,
+        ),
+        child: Text(value, style: TextStyle(fontSize: 32)),
+        onPressed: () => _setEmptyCells(),
+      ),
+    );
+  }
+
+  Color getFieldColor(String value) {
+    switch (value) {
+      case Cell.O:
+        return Colors.blue;
+      case Cell.X:
+        return Colors.red;
+      default:
+        return Colors.white;
+    }
   }
 
   Padding getScoreView(String player, int score, MaterialColor color, double size) {
