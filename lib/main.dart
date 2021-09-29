@@ -215,7 +215,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void _increaseGrid() {
     setState(() {
       _numberOfCells += 1;
-      _gridSize -= 9;
+      _gridSize -= 15;
     });
     _setEmptyCells();
     Navigator.popAndPushNamed(context,'/');
@@ -224,6 +224,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void _decreaseGrid() {
     setState(() {
        _numberOfCells -= 1;
+       _gridSize += 15;
     });
     _setEmptyCells();
     Navigator.popAndPushNamed(context,'/');
@@ -242,22 +243,22 @@ class _MyHomePageState extends State<MyHomePage> {
                 _clearScoreBoard();
                 Navigator.of(context).pop();
               },
-              child: Text('Clear Score Board'),
+              child: Text('Clear'),
             ),
             ElevatedButton(
               onPressed: () {
                 _setEmptyCells();
                 Navigator.of(context).pop();
               },
-              child: Text('Restart'),
+              child: Text('Reset'),
             ),
-            if (_numberOfCells < 9)
+            if (_numberOfCells < 6)
             ElevatedButton(
               onPressed: () {
                 _increaseGrid();
                 Navigator.of(context).pop();
               },
-              child: Text('${_numberOfCells + 1} Cells'),
+              child: Text('${_numberOfCells + 1}'),
             ),
             if (_numberOfCells > 2)
             ElevatedButton(
@@ -265,7 +266,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 _decreaseGrid();
                 Navigator.of(context).pop();
               },
-              child: Text('${_numberOfCells - 1} Cells'),
+              child: Text('${_numberOfCells - 1}'),
             )
           ],
         ),
